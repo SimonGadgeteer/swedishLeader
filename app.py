@@ -22,8 +22,9 @@ def registerself():
 
 
 def application(environ, start_response):
-    ctype = "text/plain"
-    status = "200 OK"
+    ctype = 'text/plain'
+    status = '200 OK'
+    response_body = "It works"
 
     if environ['PATH_INFO'].startswith("/store"):
         return store.application(environ, start_response)
@@ -33,7 +34,12 @@ def application(environ, start_response):
             start_response(status, "('Content-Type', ctype)")
             return vote()
     else:
-        start_response("400", "('Content-Type', ctype)")
+        response_body = 'It Works'
+
+    response_body = response_body.encode('utf-8')
+    response_headers = [('Content-Type', ctype), ('Content-Length', str(len(response_body)))]
+    start_response(status, response_headers)
+    return [response_body]
 
 
 def getNodeList():
@@ -55,6 +61,6 @@ if __name__ == '__main__':
     httpd = make_server(host, port, application)
     registerself()
     getNodeList()
-# while True:
-#    print("waiting")
-#    httpd.handle_request()
+
+    while True:
+        httpd.handle_request()
