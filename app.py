@@ -18,10 +18,19 @@ if len(sys.argv) > 2:
 
 def registerself():
     try:
-        response = urllib.request.urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste1/' + host + ':' + port);
-        registerResponse = response.read().decode('UTF-8')
-        print("Node registered as " + registerResponse)
+        doRegister = True
+        hostname = host + ':' + port
+        list = leader.getNodeList()
+
+        for host in list:
+            if host == hostname:
+                doRegister = False
+
+        if doRegister:
+            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste1/' + host + ':' + port)
+            registerResponse = response.read().decode('UTF-8')
+
+        print("Node registered as " + hostname)
     except Exception as e:
         print("Error registering: ", e)
 
@@ -61,7 +70,6 @@ if __name__ == '__main__':
 
     httpd = make_server(host, port, application)
     registerself()
-    leader.getNodeList()
 
     while True:
         httpd.handle_request()
