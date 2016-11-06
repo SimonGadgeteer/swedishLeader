@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import urllib.request
+from random import randint
 
 port = 8080
 host = ''
 
-# probably no necessary --> remote kv store in use; import registry
-from random import randint
-
+if len(sys.argv) > 2:
+    host = sys.argv[1]
+    port = int(sys.argv[2])
 
 # to do import store
 # import config
