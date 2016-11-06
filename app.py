@@ -26,7 +26,7 @@ def registerself():
         print("Error registering: ", e)
 
 
-def application(self, environ, start_response):
+def application(environ, start_response):
     ctype = 'text/plain'
     status = '200 OK'
     response_body = "It works"
@@ -37,10 +37,8 @@ def application(self, environ, start_response):
     elif environ['PATH_INFO'].startswith("/store/"):
         return store.storeValues()
     elif environ['PATH_INFO'].startswith("/leader"):
-        return True
         if environ['PATH_INFO'].startswith("/leader/vote"):
-            start_response(status, "('Content-Type', ctype)")
-            return vote()
+            response_body = str(randint(0,1))
     else:
         response_body = 'It Works'
 
