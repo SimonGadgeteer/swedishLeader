@@ -9,6 +9,8 @@ from random import randint
 port = 8080
 host = socket.gethostname()
 isLeader = True
+leaderhost = ''
+
 
 if len(sys.argv) > 2:
     host = sys.argv[1]
@@ -30,7 +32,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste4/' + hostname)
+            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste5/' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)
@@ -39,6 +41,7 @@ def registerself(host, port):
 
 
 def application(environ, start_response):
+    global leaderhost
     ctype = 'text/plain'
     status = '200 OK'
     response_body = "It works"
@@ -59,8 +62,16 @@ def application(environ, start_response):
                 isLeader = True
         else:
             response_body = leader.election(host, port)
+    elif environ['PATH_INFO'].startswith("/newleader/"):
+        leaderhost = environ['PATH_INFO'][11:]
+        print('Registered Leader Host:' + leaderhost)
+    elif environ['PATH_INFO'].startswith("/getleader"):
+        response_body = leaderhost
+
     else:
         response_body = 'It Works'
+
+    print('Called : ' + environ['PATH_INFO'])
 
     response_body = response_body.encode('utf-8')
     response_headers = [('Content-Type', ctype), ('Content-Length', str(len(response_body)))]
