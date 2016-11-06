@@ -1,11 +1,9 @@
-#!/usr/bin/env python2
-
 port = 8080
 host = ''
 
-import urllib
+import urllib.request
+
 # probably no necessary --> remote kv store in use; import registry
-import leader
 from random import randint
 
 
@@ -15,8 +13,8 @@ from random import randint
 
 def registerself():
     try:
-        response = urllib.urlopen(
-            'http://kvstore-python-kvstore.44fs.preview.openshiftapps.com/registry/touriste/1272');
+        response = urllib.request.urlopen(
+            'http://isprot-registry.appspot.com/registry/touriste/1272');
         registerResponse = response.read()
         print("Node registered as " + registerResponse)
     except Exception as e:
@@ -40,9 +38,9 @@ def application(environ, start_response):
 
 def getNodeList():
     try:
-        response = urllib.urlopen(
-            'http://kvstore-python-kvstore.44fs.preview.openshiftapps.com/registry/touriste');
-        registerResponse = response.read()
+        response = urllib.request.urlopen(
+            'http://isprot-registry.appspot.com/registry/touriste')
+        registerResponse = response.read().decode('UTF-8')
         listOfAvailableNodes = registerResponse[13:].split(",")
         print(listOfAvailableNodes)
     except Exception as e:
@@ -55,7 +53,7 @@ if __name__ == '__main__':
     from wsgiref.simple_server import make_server
 
     httpd = make_server(host, port, application)
-    registerself()
+#    registerself()
     getNodeList()
 # while True:
 #    print("waiting")
