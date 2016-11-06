@@ -1,7 +1,17 @@
+#!/usr/bin/env python
+import urllib.request
+import os
+
 port = 8080
 host = ''
 
-import urllib.request
+if os.environ.get('SWEDISHLEADER_SERVICE_PORT'):
+    port = os.environ.get('SWEDISHLEADER_SERVICE_PORT')
+
+if os.environ.get('SWEDISHLEADER_SERVICE_HOST'):
+    host = os.environ.get('SWEDISHLEADER_SERVICE_HOST')
+
+
 
 # probably no necessary --> remote kv store in use; import registry
 from random import randint
