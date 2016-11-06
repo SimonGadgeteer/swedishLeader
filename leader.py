@@ -1,4 +1,5 @@
 import urllib.request
+import urllib
 from random import randint
 
 def getNodeList():
@@ -7,7 +8,7 @@ def getNodeList():
             'http://isprot-registry.appspot.com/registry/touriste1')
         registerResponse = response.read().decode('UTF-8')
 
-        if registerResponse.startsWith('Participants'):
+        if registerResponse.startswith('Participants'):
             return registerResponse[13:].split(",")
         else:
             return False
@@ -18,5 +19,32 @@ def getNodeList():
 def vote():
     return randint(0,1)
 
-def election():
-    return 'leader'
+def election(localhost, port):
+    hosts = getNodeList()
+    elected = False
+    hostlist = hosts
+
+    while elected != True:
+        electedHosts = []
+
+        for host in hostlist:
+            try:
+                if host.strip() != localhost + ':' + str(port):
+
+                    response = urllib.request.urlopen('http://' + host.strip() + '/leader/vote')
+                    response = int(response.decode('UTF-8'))
+                else:
+                    response = int(vote())
+
+                if response == 1:
+                    electedHosts.append(host)
+
+            except Exception as e:
+                print("Error calling vote: ", e, 'http://' + host.strip() + '/leader/vote')
+
+        if len(electedHosts) == 1:
+           elected = True
+        elif len(electedHosts) != 0:
+            hostlist = electedHosts
+
+    return electedHosts[0]

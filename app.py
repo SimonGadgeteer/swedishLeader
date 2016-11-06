@@ -7,6 +7,7 @@ from random import randint
 
 port = 8080
 host = ''
+isLeader = True
 
 if len(sys.argv) > 2:
     host = sys.argv[1]
@@ -16,18 +17,18 @@ if len(sys.argv) > 2:
 # import config
 
 
-def registerself():
+def registerself(host, port):
     try:
         doRegister = True
-        hostname = host + ':' + port
-        list = leader.getNodeList()
+        hostname = host + ':' + str(port)
+        hosts = leader.getNodeList()
 
-        for host in list:
-            if host == hostname:
+        for host in hosts:
+            if host.strip() == hostname:
                 doRegister = False
 
         if doRegister:
-            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste1/' + host + ':' + port)
+            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste1/' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)
@@ -47,9 +48,13 @@ def application(environ, start_response):
         return store.storeValues()
     elif environ['PATH_INFO'].startswith("/leader"):
         if environ['PATH_INFO'].startswith("/leader/vote"):
-            response_body = leader.vote()
+            response_body = str(leader.vote())
+            if response_body == '0':
+                isLeader = False
+            else:
+                isLeader = True
         else:
-            response_body = leader.election()
+            response_body = leader.election(host, port)
     else:
         response_body = 'It Works'
 
@@ -69,7 +74,7 @@ if __name__ == '__main__':
     from wsgiref.simple_server import make_server
 
     httpd = make_server(host, port, application)
-    registerself()
+    registerself(host, port)
 
     while True:
         httpd.handle_request()
