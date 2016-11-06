@@ -43,11 +43,13 @@ def application(environ, start_response):
     status = '200 OK'
     response_body = "It works"
 
-    if environ['PATH_INFO'].startswith("/store"):
+    if environ['PATH_INFO'].startswith("/store/"):
+        params = environ['PATH_INFO'][7:]
+        params = params.split('=')
         #return store.application(environ, start_response)
+        response_body = store.storeValues(params[0], params[1])
+    elif environ['PATH_INFO'].startswith("/store"):
         return store.getValues()
-    elif environ['PATH_INFO'].startswith("/store/"):
-        return store.storeValues()
     elif environ['PATH_INFO'].startswith("/leader"):
         if environ['PATH_INFO'].startswith("/leader/vote"):
             response_body = str(leader.vote())
