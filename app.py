@@ -6,7 +6,7 @@ port = 8080
 host = ''
 
 if os.environ.get('SWEDISHLEADER_SERVICE_PORT'):
-    port = os.environ.get('SWEDISHLEADER_SERVICE_PORT')
+    port = int(os.environ.get('SWEDISHLEADER_SERVICE_PORT'))
 
 if os.environ.get('SWEDISHLEADER_SERVICE_HOST'):
     host = os.environ.get('SWEDISHLEADER_SERVICE_HOST')
