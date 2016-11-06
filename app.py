@@ -2,12 +2,9 @@ port = 8080
 host = ''
 
 import urllib.request
-
 # probably no necessary --> remote kv store in use; import registry
-from random import randint
+import leader, store, create_udr, create_bill
 
-
-# to do import store
 # import config
 
 
@@ -21,13 +18,16 @@ def registerself():
         print("Error registering: ", e)
 
 
-def application(environ, start_response):
+def application(self, environ, start_response):
     ctype = 'text/plain'
     status = '200 OK'
     response_body = "It works"
 
     if environ['PATH_INFO'].startswith("/store"):
-        return store.application(environ, start_response)
+        #return store.application(environ, start_response)
+        return store.getValues()
+    elif environ['PATH_INFO'].startswith("/store/"):
+        return store.storeValues()
     elif environ['PATH_INFO'].startswith("/leader"):
         return True
         if environ['PATH_INFO'].startswith("/leader/vote"):
@@ -42,25 +42,18 @@ def application(environ, start_response):
     return [response_body]
 
 
-def getNodeList():
-    try:
-        response = urllib.request.urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste')
-        registerResponse = response.read().decode('UTF-8')
-        listOfAvailableNodes = registerResponse[13:].split(",")
-        print(listOfAvailableNodes)
-    except Exception as e:
-        print("Error registering: ", e)
+def generateUDR():
+    create_udr.generate()
 
-def vote():
-    return randint(0,1)
+def createBill():
+    create_bill.generate()
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
 
     httpd = make_server(host, port, application)
     registerself()
-    getNodeList()
+    leader.getNodeList()
 
     while True:
         httpd.handle_request()

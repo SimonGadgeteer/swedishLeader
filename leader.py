@@ -1,7 +1,15 @@
-import urllib2
+import urllib.request
+from random import randint
 
-def getAvailablePatricipants():
-	req = urllib2.Request('http://kvstore-python-kvstore.44fs.preview.openshiftapps.com/registry')
-	response = urllib2.urlopen(req)
-	the_page = response.read()
-	print(the_page);
+def getNodeList():
+    try:
+        response = urllib.request.urlopen(
+            'http://isprot-registry.appspot.com/registry/touriste')
+        registerResponse = response.read().decode('UTF-8')
+        listOfAvailableNodes = registerResponse[13:].split(",")
+        print(listOfAvailableNodes)
+    except Exception as e:
+        print("Error registering: ", e)
+
+def vote():
+    return randint(0,1)
