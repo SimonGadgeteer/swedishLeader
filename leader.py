@@ -5,7 +5,7 @@ from random import randint
 def getNodeList():
     try:
         response = urllib.request.urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste5')
+            'http://isprot-registry.appspot.com/registry/touriste6')
         registerResponse = response.read().decode('UTF-8')
 
         if registerResponse.startswith('Participants'):
@@ -52,4 +52,4 @@ def election(localhost, port):
         if host.strip() != localhost + ':' + str(port):
             response = urllib.request.urlopen('http://' + host.strip() + '/newleader/' + electedHosts[0].strip())
 
-    return electedHosts[0]
+    return electedHosts[0].strip()
