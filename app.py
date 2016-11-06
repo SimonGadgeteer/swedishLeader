@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 import urllib.request
 import os
+import socket
 
 port = 8080
 host = ''
+
 
 if os.environ.get('SWEDISHLEADER_SERVICE_PORT'):
     port = int(os.environ.get('SWEDISHLEADER_SERVICE_PORT'))
 
 if os.environ.get('HOSTNAME'):
-    host = os.environ.get('HOSTNAME')
-
+    host = socket.gethostbyname(os.environ.get('HOSTNAME'))
 
 
 # probably no necessary --> remote kv store in use; import registry
@@ -67,6 +68,8 @@ def vote():
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
+
+    print(host)
 
     httpd = make_server(host, port, application)
     registerself()
