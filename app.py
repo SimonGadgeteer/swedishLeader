@@ -19,7 +19,7 @@ if len(sys.argv) > 2:
 def registerself():
     try:
         response = urllib.request.urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste/1272');
+            'http://isprot-registry.appspot.com/registry/touriste1/' + host + ':' + port);
         registerResponse = response.read().decode('UTF-8')
         print("Node registered as " + registerResponse)
     except Exception as e:
@@ -38,7 +38,9 @@ def application(environ, start_response):
         return store.storeValues()
     elif environ['PATH_INFO'].startswith("/leader"):
         if environ['PATH_INFO'].startswith("/leader/vote"):
-            response_body = str(randint(0,1))
+            response_body = leader.vote()
+        else:
+            response_body = leader.election()
     else:
         response_body = 'It Works'
 
