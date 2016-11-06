@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import sys
 import urllib.request
+import socket
 # probably no necessary --> remote kv store in use; import registry
 import leader, store, create_udr, create_bill
 from random import randint
 
 port = 8080
-host = ''
+host = socket.gethostname()
 isLeader = True
 
 if len(sys.argv) > 2:
@@ -23,12 +24,13 @@ def registerself(host, port):
         hostname = host + ':' + str(port)
         hosts = leader.getNodeList()
 
-        for host in hosts:
-            if host.strip() == hostname:
-                doRegister = False
+        if hosts:
+            for host in hosts:
+                if host.strip() == hostname:
+                    doRegister = False
 
         if doRegister:
-            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste1/' + hostname)
+            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste4/' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)

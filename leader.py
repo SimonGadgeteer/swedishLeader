@@ -5,7 +5,7 @@ from random import randint
 def getNodeList():
     try:
         response = urllib.request.urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste1')
+            'http://isprot-registry.appspot.com/registry/touriste4')
         registerResponse = response.read().decode('UTF-8')
 
         if registerResponse.startswith('Participants'):
@@ -15,6 +15,7 @@ def getNodeList():
 
     except Exception as e:
         print("Error registering: ", e)
+        return False
 
 def vote():
     return randint(0,1)
