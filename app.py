@@ -15,7 +15,7 @@ def registerself():
     try:
         response = urllib.request.urlopen(
             'http://isprot-registry.appspot.com/registry/touriste/1272');
-        registerResponse = response.read()
+        registerResponse = response.read().decode('UTF-8')
         print("Node registered as " + registerResponse)
     except Exception as e:
         print("Error registering: ", e)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     from wsgiref.simple_server import make_server
 
     httpd = make_server(host, port, application)
-#    registerself()
+    registerself()
     getNodeList()
 # while True:
 #    print("waiting")
