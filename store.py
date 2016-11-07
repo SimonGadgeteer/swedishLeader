@@ -1,6 +1,7 @@
 import register_usage
 import urllib.request
 import leader
+import threading
 
 values = {}
 
@@ -17,10 +18,14 @@ def getValues():
     return str(values)
 
 def notifyLeader(leader, key, value):
-    response = urllib.request.urlopen('http://' + leader + '/sync/' + key + '=' + value)
+    url = 'http://' + leader + '/sync/' + key + '=' + value
+    threading.Thread(target=geturl, args=(url,)).start()
 
 def syncAll(key, value, localhost, localport):
     hosts = leader.getNodeList()
     for host in hosts:
         if host.strip() != localhost + ':' + str(localport):
             urllib.request.urlopen('http://' + host.strip() + '/sync/' + key + '=' + value)
+
+def geturl(url):
+    urlHandler = urllib.request.urlopen(url)

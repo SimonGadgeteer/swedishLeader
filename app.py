@@ -8,7 +8,7 @@ from random import randint
 
 port = 8080
 host = socket.gethostname()
-isLeader = True
+isLeader = False
 leaderhost = ''
 
 
@@ -32,7 +32,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste6/' + hostname)
+            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste9/' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)
@@ -55,12 +55,15 @@ def application(environ, start_response):
     if environ['PATH_INFO'].startswith("/store/"):
         params = environ['PATH_INFO'][7:]
         params = params.split('=')
+
+        response_body = store.storeValues(params[0], params[1], True)
+
         if isLeader == False:
             store.notifyLeader(leaderhost, params[0], params[1])
         else:
             store.syncAll(params[0], params[1], host, port)
         #return store.application(environ, start_response)
-        response_body = store.storeValues(params[0], params[1], True)
+
     elif environ['PATH_INFO'].startswith("/store"):
         response_body =  str(store.getValues())
     elif environ['PATH_INFO'].startswith("/sync/"):
@@ -76,15 +79,21 @@ def application(environ, start_response):
         if environ['PATH_INFO'].startswith("/leader/vote"):
             response_body = str(leader.vote())
             print(response_body)
-            if response_body == '0':
-                isLeader = False
-            else:
-                isLeader = True
+
         else:
             response_body = leader.election(host, port)
+            leaderhost = response_body
+
+            if leaderhost == host.strip() + ':' + str(port):
+                isLeader = True
+            else:
+                isLeader = False
+
     elif environ['PATH_INFO'].startswith("/newleader/"):
         leaderhost = environ['PATH_INFO'][11:]
         isLeader = False
+        if leaderhost == host.strip() + ':' + str(port):
+            isLeader = True
         print('Registered Leader Host:' + leaderhost)
     elif environ['PATH_INFO'].startswith("/getleader"):
         response_body = leaderhost
@@ -111,6 +120,4 @@ if __name__ == '__main__':
 
     httpd = make_server(host, port, application)
     registerself(host, port)
-
-    while True:
-        httpd.handle_request()
+    httpd.serve_forever()
