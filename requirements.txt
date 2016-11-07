@@ -1,5 +1,4 @@
 requests
-sys
-urllib.request
+urllib
 socket
 random
