@@ -105,6 +105,10 @@ def application(environ, start_response):
         print('Registered Leader Host:' + leaderhost)
     elif environ['PATH_INFO'].startswith("/getleader"):
         response_body = leaderhost
+    elif environ['PATH_INFO'].startswith("/udr"):
+        generateUDR()
+    elif environ['PATH_INFO'].startswith("/billing"):
+        createBill()
 
     else:
         response_body = 'It Works'
