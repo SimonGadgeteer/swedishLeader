@@ -1,10 +1,14 @@
-import urllib.request
-import urllib
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import urlopen
 from random import randint
 
 def getNodeList():
     try:
-        response = urllib.request.urlopen(
+        response = urlopen(
             'http://isprot-registry.appspot.com/registry/touriste9')
         registerResponse = response.read().decode('UTF-8')
 
@@ -32,7 +36,7 @@ def election(localhost, port):
             try:
                 if host.strip() != localhost + ':' + str(port):
 
-                    response = urllib.request.urlopen('http://' + host.strip() + '/leader/vote')
+                    response = urlopen('http://' + host.strip() + '/leader/vote')
                     response = int(response.read().decode('UTF-8'))
                 else:
                     response = int(vote())
@@ -50,6 +54,6 @@ def election(localhost, port):
 
     for host in hosts:
         if host.strip() != localhost + ':' + str(port):
-            response = urllib.request.urlopen('http://' + host.strip() + '/newleader/' + electedHosts[0].strip())
+            response = urlopen('http://' + host.strip() + '/newleader/' + electedHosts[0].strip())
 
     return electedHosts[0].strip()

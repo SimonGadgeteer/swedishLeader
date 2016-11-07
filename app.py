@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 import sys
-import urllib.request
 import socket
+
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import urlopen
+
 # probably no necessary --> remote kv store in use; import registry
 import leader, store, create_udr, create_bill
 from random import randint
@@ -32,7 +39,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urllib.request.urlopen('http://isprot-registry.appspot.com/registry/touriste9/' + hostname)
+            response = urlopen('http://isprot-registry.appspot.com/registry/touriste9/' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)

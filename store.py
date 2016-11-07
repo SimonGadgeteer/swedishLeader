@@ -1,7 +1,13 @@
 import register_usage
-import urllib.request
 import leader
 import threading
+
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import urlopen
 
 values = {}
 
@@ -25,7 +31,7 @@ def syncAll(key, value, localhost, localport):
     hosts = leader.getNodeList()
     for host in hosts:
         if host.strip() != localhost + ':' + str(localport):
-            urllib.request.urlopen('http://' + host.strip() + '/sync/' + key + '=' + value)
+            urlopen('http://' + host.strip() + '/sync/' + key + '=' + value)
 
 def geturl(url):
-    urlHandler = urllib.request.urlopen(url)
+    urlHandler = urlopen(url)
