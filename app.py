@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import socket
+import os
 
 try:
     # For Python 3.0 and later
@@ -13,8 +14,8 @@ except ImportError:
 import leader, store, create_udr, create_bill
 from random import randint
 
-port = 8000
-host = socket.gethostname()
+port = int(os.environ.get('VCAP_APP_PORT', '5050'))
+host = os.environ.get('VCAP_APP_HOST', 'localhost')
 isLeader = False
 leaderhost = ''
 
