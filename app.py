@@ -6,7 +6,7 @@ import socket
 import leader, store, create_udr, create_bill
 from random import randint
 
-port = 8080
+port = 8000
 host = socket.gethostname()
 isLeader = False
 leaderhost = ''
