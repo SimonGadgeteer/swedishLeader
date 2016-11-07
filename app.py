@@ -118,6 +118,6 @@ def createBill():
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
 
-    httpd = make_server(host, port, application)
+    httpd = make_server('', port, application)
     registerself(host, port)
     httpd.serve_forever()
