@@ -1011,3 +1011,4 @@ env/lib/python3.5/site-packages/wheel/test/simple.dist/simpledist/__init__.py
 env/lib/python3.5/site-packages/wheel/test/simple.dist/simpledist/__pycache__/__init__.cpython-35.pyc
 env/lib/python3.5/site-packages/wheel/tool/__init__.py
 env/lib/python3.5/site-packages/wheel/tool/__pycache__/__init__.cpython-35.pyc
+.idea/

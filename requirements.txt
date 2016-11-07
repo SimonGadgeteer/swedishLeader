@@ -1,1 +1,5 @@
 requests
+sys
+urllib.request
+socket
+random
