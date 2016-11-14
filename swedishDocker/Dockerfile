@@ -4,8 +4,8 @@ RUN apt-get -y update && apt-get install -y python3 && apt-get install -y git-al
 RUN git clone https://github.com/SimonGadgeteer/swedishLeader.git
 WORKDIR /swedishLeader
 RUN pip install -r requirements.txt
-EXPOSE 1001-8000
-CMD "python --version"
+EXPOSE 5050
+#CMD "python --version"
 
 #not yet working
-#CMD "python /usr/swedishLeader/app.py"
+CMD ["/usr/bin/python", "/swedishLeader/app.py"]

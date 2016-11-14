@@ -39,3 +39,9 @@ To create a bill for your usage, use
 2. `yourhost:yourport/billing`
 3. your bill is now created within your Cyclopse account
 
+
+##Docker
+There is also a Docker image of the swedishLeader available:
+`https://hub.docker.com/r/gruppeasdf/swedish_leader/`
+
+The container is already running @ `169.44.117.158:5050`
