@@ -1,0 +1,59 @@
+#%RAML 0.8
+title: swedishLeader
+baseUri: http://169.44.117.158:5050
+/leader:
+  get:
+    description: |
+      initializes leader election and returns the elected leader
+    responses:
+      200:
+        body:
+          text/plain:
+/getleader:
+  get:
+    description: |
+      returns current leader
+    responses:
+      200:
+        body:
+          text/plain:
+/store:
+  get:
+    description: |
+      shows the saved key-value-pairs
+    responses:
+      200:
+        body:
+          text/plain:
+/store/{key}={value}:
+  uriParameters:
+    key:
+      type: string
+    value:
+      type: string
+  get:
+    description: |
+      saves the given key-value-pair to the local storage and pushes the change to the leader for syncing with other stores
+    responses:
+      200:
+        body:
+          text/plain:
+/udr:
+  get:
+    description: |
+      generates the udr usage file for billing purpose
+    responses:
+      200:
+        body:
+          text/plain:
+/billing:
+  get:
+    description: |
+      generates a bill in Cyclope (based on udr)
+    responses:
+      200:
+        body:
+          text/plain:
+documentation:
+  - title: Readme
+    content: !include README.md
