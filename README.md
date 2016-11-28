@@ -39,6 +39,8 @@ To create a bill for your usage, use
 2. `yourhost:yourport/billing`
 3. your bill is now created within your Cyclopse account
 
+##API
+There is also an api description file available to use. The file is written in the RAML format (api.raml).
 
 ##Docker
 There is also a Docker image of the swedishLeader available:
