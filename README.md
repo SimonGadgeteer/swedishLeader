@@ -46,4 +46,4 @@ There is also an api description file available to use. The file is written in t
 There is also a Docker image of the swedishLeader available:
 `https://hub.docker.com/r/gruppeasdf/swedish_leader/`
 
-The container is already running @ `169.44.117.158:5050`
+The container is already running @ `https://swedish.mybluemix.net/`

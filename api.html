@@ -1,0 +1,154 @@
+<!DOCTYPE HTML><html><head><title>swedishLeader API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 3.0.1"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>swedishLeader API documentation</h1><p>http://169.44.117.158:5050</p><h3 id="README"><a href="#README">README</a></h3><h1 id="swedishleader">swedishLeader</h1><p>##Trivia Implementation of the swedish leadership voting algorithm in Python3</p><p>A remote kv-store is used for registration of (new) nodes. Every node registers it self upon first creation. For voting a leader the swedish leadership voting algorith is used. This means, every node will flip a coin and, if passed, will take part in the next voting round until no other nodes are left. The last node is the leader. If every node loses in a round, that round is repeated again. The leader henceforth is responsible to syncronize the stored key value between the independent nodes.</p><p><em>This implementation uses a random port number (which will be displayed)</em> <em>exmaple installation: <code>http://swedish.mybluemix.net</code></em></p><p>##Installation</p><ol><li><p>clone the files with <code>git clone https://github.com/SimonGadgeteer/swedishLeader.git</code></p></li><li><p>run the app with <code>python app.py [port]</code></p></li><li><p>your instance of the kv-store is now running</p></li></ol><p>##Usage</p><p>###Store a KV To store a KV in your local instance, use <code>yourhost:yourport/store/&lt;yourKey&gt;=&lt;yourValue&gt;</code></p><p>###Read all KVs To get all your KVs, use <code>yourhost:yourport/store</code></p><p>###Leader election To vote for a new leader, use the following command <code>yourhost:yourport/store/leader</code></p><p>###Billing</p><p>####Config To change your Cyclopse data, modify the example information in <code>create_bill.py</code> and <code>create_udr.py</code></p><p>####Usage To create a bill for your usage, use</p><ol><li><code>yourhost:yourport/udr</code></li><li><code>yourhost:yourport/billing</code></li><li>your bill is now created within your Cyclopse account</li></ol><p>##API There is also an api description file available to use. The file is written in the RAML format (api.raml).</p><p>##Docker There is also a Docker image of the swedishLeader available: <code>https://hub.docker.com/r/gruppeasdf/swedish_leader/</code></p><p>The container is already running @ <code>169.44.117.158:5050</code></p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="leader" class="panel-title">/leader</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_leader"><span class="parent"></span>/leader</a> <span class="methods"><a href="#leader_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_leader" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#leader_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>initializes leader election and returns the elected leader</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="leader_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/leader</h4></div><div class="modal-body"><div class="alert alert-info"><p>initializes leader election and returns the elected leader</p></div><ul class="nav nav-tabs"><li class="active"><a href="#leader_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="leader_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="getleader" class="panel-title">/getleader</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_getleader"><span class="parent"></span>/getleader</a> <span class="methods"><a href="#getleader_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_getleader" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#getleader_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>returns current leader</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="getleader_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/getleader</h4></div><div class="modal-body"><div class="alert alert-info"><p>returns current leader</p></div><ul class="nav nav-tabs"><li class="active"><a href="#getleader_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="getleader_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="store" class="panel-title">/store</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_store"><span class="parent"></span>/store</a> <span class="methods"><a href="#store_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_store" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#store_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>shows the saved key-value-pairs</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="store_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/store</h4></div><div class="modal-body"><div class="alert alert-info"><p>shows the saved key-value-pairs</p></div><ul class="nav nav-tabs"><li class="active"><a href="#store_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="store_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="store__key___value_" class="panel-title">/store/{key}={value}</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_store__key___value_"><span class="parent"></span>/store/{key}={value}</a> <span class="methods"><a href="#store__key___value__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_store__key___value_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#store__key___value__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>saves the given key-value-pair to the local storage and pushes the change to the leader for syncing with other stores</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="store__key___value__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/store/{key}={value}</h4></div><div class="modal-body"><div class="alert alert-info"><p>saves the given key-value-pair to the local storage and pushes the change to the leader for syncing with other stores</p></div><ul class="nav nav-tabs"><li class="active"><a href="#store__key___value__get_request" data-toggle="tab">Request</a></li><li><a href="#store__key___value__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="store__key___value__get_request"><h3>URI Parameters</h3><ul><li><strong>key</strong>: <em>required (string)</em></li><li><strong>value</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="store__key___value__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="udr" class="panel-title">/udr</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_udr"><span class="parent"></span>/udr</a> <span class="methods"><a href="#udr_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_udr" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#udr_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>generates the udr usage file for billing purpose</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="udr_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/udr</h4></div><div class="modal-body"><div class="alert alert-info"><p>generates the udr usage file for billing purpose</p></div><ul class="nav nav-tabs"><li class="active"><a href="#udr_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="udr_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="billing" class="panel-title">/billing</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_billing"><span class="parent"></span>/billing</a> <span class="methods"><a href="#billing_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_billing" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#billing_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>generates a bill in Cyclope (based on udr)</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="billing_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/billing</h4></div><div class="modal-body"><div class="alert alert-info"><p>generates a bill in Cyclope (based on udr)</p></div><ul class="nav nav-tabs"><li class="active"><a href="#billing_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="billing_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: text/plain</strong></p></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#leader">/leader</a></li><li><a href="#getleader">/getleader</a></li><li><a href="#store">/store</a></li><li><a href="#store__key___value_">/store/{key}={value}</a></li><li><a href="#udr">/udr</a></li><li><a href="#billing">/billing</a></li></ul></div></div></div></div></body></html>
