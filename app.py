@@ -42,7 +42,7 @@ def registerself(host, port):
         if doRegister:
             response = urlopen('http://isprot-registry.appspot.com/registry/touriste10/' + hostname)
             registerResponse = response.read().decode('UTF-8')
-        print(socket.gethostbyname(socket.gethostname()))
+        print(socket.gethostname())
         print("Node registered as " + hostname)
     except Exception as e:
         print("Error registering: ", e)
