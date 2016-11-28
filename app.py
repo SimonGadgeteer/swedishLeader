@@ -40,7 +40,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urlopen('http://isprot-registry.appspot.com/registry/touriste9/' + hostname)
+            response = urlopen('http://isprot-registry.appspot.com/registry/touriste10' + hostname)
             registerResponse = response.read().decode('UTF-8')
 
         print("Node registered as " + hostname)
