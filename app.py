@@ -11,7 +11,7 @@ except ImportError:
     from urllib2 import urlopen
 
 # probably no necessary --> remote kv store in use; import registry
-import leader, store, create_udr, create_bill
+import leader, store, udr, bill
 from random import randint
 
 port = int(os.environ.get('VCAP_APP_PORT', '5050'))
@@ -106,7 +106,7 @@ def application(environ, start_response):
     elif environ['PATH_INFO'].startswith("/getleader"):
         response_body = leaderhost
     elif environ['PATH_INFO'].startswith("/udr"):
-        generateUDR()
+        createUDR()
     elif environ['PATH_INFO'].startswith("/billing"):
         createBill()
 
@@ -121,11 +121,11 @@ def application(environ, start_response):
     return [response_body]
 
 
-def generateUDR():
-    create_udr.generate()
+def createUDR():
+    udr.create()
 
 def createBill():
-    create_bill.generate()
+    bill.create()
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
