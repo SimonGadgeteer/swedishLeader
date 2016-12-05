@@ -11,7 +11,7 @@ except ImportError:
 
 values = {}
 
-def storeValues(key, value, registerUsage):
+def storeValues(key, value, registerUsage, localhost, localport):
     listValue = list(value)
     hosts = leader.getNodeList()
 
@@ -26,9 +26,14 @@ def storeValues(key, value, registerUsage):
 
         nr = nr + 1
 
-        print(shardValue)
+        if host.strip() != localhost + ':' + str(localport):
+            urlopen('http://' + host.strip() + '/sync/' + key + '=' + str(shardValue).strip('[]'))
+
+        print(shardValue + " : "+host)
 
     return "I'll store "+key+" with the value "+value
+
+
 
 def getValues():
     return

@@ -66,7 +66,7 @@ def application(environ, start_response):
         params = environ['PATH_INFO'][7:]
         params = params.split('=')
 
-        response_body = valueStore.storeValues(params[0], params[1], True)
+        response_body = valueStore.storeValues(params[0], params[1], True, host, port)
 
         if isLeader == False:
             valueStore.notifyLeader(leaderhost, params[0], params[1])

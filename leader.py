@@ -9,7 +9,7 @@ from random import randint
 def getNodeList():
     try:
         response = urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste9')
+            'http://isprot-registry.appspot.com/registry/touriste11')
         registerResponse = response.read().decode('UTF-8')
 
         if registerResponse.startswith('Participants'):
