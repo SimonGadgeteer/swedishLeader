@@ -23,7 +23,7 @@ The leader henceforth is responsible to syncronize the stored key value between 
 To store a KV in your local instance, use `yourhost:yourport/store/<yourKey>=<yourValue>`
 
 ##Storage
-This implementation of a KV store uses sharding to distribute all your values equally between all available nodes. To configure this one has to change the config.json file
+This implementation of a KV store uses sharding to distribute all your values equally between all available nodes. To configure this one has to change the `config.json` file (`'shard'` or `'full'`)
 
 ###Read all KVs
 To get all your KVs, use `yourhost:yourport/store`
