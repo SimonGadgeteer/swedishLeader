@@ -11,8 +11,10 @@ except ImportError:
     from urllib2 import urlopen
 
 # probably no necessary --> remote kv store in use; import registry
-import leader, store, udr, bill
+import leader, store, store_sharding, udr, bill
 from random import randint
+
+valueStore = store_sharding
 
 port = int(os.environ.get('VCAP_APP_PORT', '5050'))
 host = os.environ.get('VCAP_APP_HOST', 'localhost')
@@ -40,7 +42,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urlopen('http://isprot-registry.appspot.com/registry/touriste10/' + hostname)
+            response = urlopen('http://isprot-registry.appspot.com/registry/touriste11/' + hostname)
             registerResponse = response.read().decode('UTF-8')
         print(socket.gethostname())
         print("Node registered as " + hostname)
@@ -64,24 +66,24 @@ def application(environ, start_response):
         params = environ['PATH_INFO'][7:]
         params = params.split('=')
 
-        response_body = store.storeValues(params[0], params[1], True)
+        response_body = valueStore.storeValues(params[0], params[1], True)
 
         if isLeader == False:
-            store.notifyLeader(leaderhost, params[0], params[1])
+            valueStore.notifyLeader(leaderhost, params[0], params[1])
         else:
-            store.syncAll(params[0], params[1], host, port)
+            valueStore.syncAll(params[0], params[1], host, port)
         #return store.application(environ, start_response)
 
     elif environ['PATH_INFO'].startswith("/store"):
-        response_body =  str(store.getValues())
+        response_body =  str(valueStore.getValues())
     elif environ['PATH_INFO'].startswith("/sync/"):
         params = environ['PATH_INFO'][6:]
         params = params.split('=')
-        store.storeValues(params[0], params[1], False)
+        valueStore.storeValues(params[0], params[1], False)
 
         if isLeader == True:
             print('I Am leader')
-            store.syncAll(params[0], params[1], host, port)
+            valueStore.syncAll(params[0], params[1], host, port)
 
     elif environ['PATH_INFO'].startswith("/leader"):
         if environ['PATH_INFO'].startswith("/leader/vote"):

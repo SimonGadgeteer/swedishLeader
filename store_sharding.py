@@ -12,7 +12,23 @@ except ImportError:
 values = {}
 
 def storeValues(key, value, registerUsage):
-    return
+    listValue = list(value)
+    hosts = leader.getNodeList()
+
+    nr = 0
+    for host in hosts:
+        length = int(round(len(listValue) / len(hosts)))
+
+        if nr != (len(hosts) - 1):
+            shardValue = listValue[nr*length : (nr*length + length)]
+        else:
+            shardValue = listValue[nr*length : len(listValue)]
+
+        nr = nr + 1
+
+        print(shardValue)
+
+    return "I'll store "+key+" with the value "+value
 
 def getValues():
     return
