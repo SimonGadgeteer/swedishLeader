@@ -1,3 +1,6 @@
+import json
+config = json.load(open('config.json'))
+
 try:
     # For Python 3.0 and later
     from urllib.request import urlopen
@@ -7,6 +10,8 @@ except ImportError:
 from random import randint
 
 def getNodeList():
+    global config
+
     try:
         response = urlopen(
             'http://isprot-registry.appspot.com/registry/touriste11')

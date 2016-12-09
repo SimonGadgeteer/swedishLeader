@@ -38,6 +38,8 @@ if len(sys.argv) > 2:
 
 
 def registerself(host, port):
+    global config
+
     try:
         doRegister = True
         hostname = host + ':' + str(port)
@@ -49,7 +51,7 @@ def registerself(host, port):
                     doRegister = False
 
         if doRegister:
-            response = urlopen('http://isprot-registry.appspot.com/registry/touriste11/' + hostname)
+            response = urlopen(config['hostsRegistry'] + '/' + hostname)
             registerResponse = response.read().decode('UTF-8')
         print(socket.gethostname())
         print("Node registered as " + hostname)
