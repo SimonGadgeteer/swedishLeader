@@ -11,10 +11,12 @@ except ImportError:
 
 values = {}
 
-def storeValues(key, value):
+def storeValues(key, value, localhost, localport):
     print("I'll store "+key+" with the value "+value)
     values[key] = value
-    register_usage.registerUsage()
+
+    # threading.Thread(target=register_usage.registerUsage, args=()).start()
+
     print("the store now looks like this: "+str(values))
 
     return "I'll store "+key+" with the value "+value
@@ -24,6 +26,9 @@ def syncValue(key, value):
 
 def getValues():
     return str(values)
+
+def getValue(key):
+    return values[key]
 
 def notifyLeader(leader, key, value):
     url = 'http://' + leader + '/sync/' + key + '=' + value

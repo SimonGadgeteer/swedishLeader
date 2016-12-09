@@ -81,7 +81,7 @@ def application(environ, start_response):
         #return store.application(environ, start_response)
 
     elif environ['PATH_INFO'].startswith("/store"):
-        response_body =  str(valueStore.getValues())
+        response_body =  str(valueStore.getValues(host, port))
     elif environ['PATH_INFO'].startswith("/sync/"):
         params = environ['PATH_INFO'][6:]
         params = params.split('=')
@@ -113,6 +113,8 @@ def application(environ, start_response):
         print('Registered Leader Host:' + leaderhost)
     elif environ['PATH_INFO'].startswith("/getleader"):
         response_body = leaderhost
+    elif environ['PATH_INFO'].startswith("/getvalue/"):
+        response_body = valueStore.getValue(environ['PATH_INFO'][10:])
     elif environ['PATH_INFO'].startswith("/udr"):
         createUDR()
     elif environ['PATH_INFO'].startswith("/billing"):

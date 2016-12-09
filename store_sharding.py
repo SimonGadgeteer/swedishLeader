@@ -14,7 +14,8 @@ values = {}
 def storeValues(key, value, localhost, localport):
     listValue = list(value)
     hosts = leader.getNodeList()
-    print(str(hosts))
+
+    # threading.Thread(target=register_usage.registerUsage, args=()).start()
 
     nr = 0
     for host in hosts:
@@ -39,12 +40,40 @@ def storeValues(key, value, localhost, localport):
 def syncValue(key, value):
     values[key] = value
 
+def getValue(key):
+    return values[key]
 
-def getValue():
-    return
+def getValues(localhost, localport):
+    hosts = leader.getNodeList()
+    message = ''
 
-def getValues():
-    return str(values)
+    for key, value in values.items():
+        nr = int(value[0:1])
+        value = value[1:]
+
+        if len(message) > 0:
+            message = message + ', '
+
+        for host in hosts:
+            if host.strip() != localhost + ':' + str(localport):
+                url = 'http://' + host.strip() + '/getvalue/' + key
+                response = urlopen(url)
+
+                tmpValue = response.read().decode('UTF-8')
+                tmpNr = int(tmpValue[0:1])
+                tmpValue = tmpValue[1:]
+
+                if(tmpNr > nr):
+                    value = value + tmpValue
+                else:
+                    value = tmpValue + value
+
+                nr = tmpNr
+
+        message = message + key + '=' + value
+
+
+    return message
 
 def notifyLeader(leader, key, value):
     return

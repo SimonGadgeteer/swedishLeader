@@ -17,7 +17,7 @@ def getNodeList():
         registerResponse = response.read().decode('UTF-8')
 
         if registerResponse.startswith('Participants'):
-            return set(registerResponse[13:].split(","))
+            return set(registerResponse[14:].split(","))
         else:
             return False
 
