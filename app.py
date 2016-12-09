@@ -2,6 +2,7 @@
 import sys
 import socket
 import os
+import json
 
 try:
     # For Python 3.0 and later
@@ -10,11 +11,17 @@ except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
 
+
+config = json.load(open('config.json'))
+
 # probably no necessary --> remote kv store in use; import registry
 import leader, store, store_sharding, udr, bill
 from random import randint
 
-valueStore = store_sharding
+if(config['store'] == 'shard'):
+    valueStore = store_sharding
+else:
+    valueStore = store
 
 port = int(os.environ.get('VCAP_APP_PORT', '5050'))
 host = os.environ.get('VCAP_APP_HOST', 'localhost')
