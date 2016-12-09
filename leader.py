@@ -13,12 +13,11 @@ def getNodeList():
     global config
 
     try:
-        response = urlopen(
-            'http://isprot-registry.appspot.com/registry/touriste11')
+        response = urlopen(config['hostsRegistry'])
         registerResponse = response.read().decode('UTF-8')
 
         if registerResponse.startswith('Participants'):
-            return registerResponse[13:].split(",")
+            return set(registerResponse[13:].split(","))
         else:
             return False
 
