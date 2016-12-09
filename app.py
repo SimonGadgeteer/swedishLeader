@@ -34,9 +34,6 @@ if len(sys.argv) > 2:
     port = int(sys.argv[2])
 
 
-# import config
-
-
 def registerself(host, port):
     global config
 
@@ -75,7 +72,7 @@ def application(environ, start_response):
         params = environ['PATH_INFO'][7:]
         params = params.split('=')
 
-        response_body = valueStore.storeValues(params[0], params[1], True, host, port)
+        response_body = valueStore.storeValues(params[0], params[1], host, port)
 
         if isLeader == False:
             valueStore.notifyLeader(leaderhost, params[0], params[1])
@@ -88,7 +85,7 @@ def application(environ, start_response):
     elif environ['PATH_INFO'].startswith("/sync/"):
         params = environ['PATH_INFO'][6:]
         params = params.split('=')
-        valueStore.storeValues(params[0], params[1], False)
+        valueStore.syncValue(params[0], params[1])
 
         if isLeader == True:
             print('I Am leader')
@@ -123,8 +120,6 @@ def application(environ, start_response):
 
     else:
         response_body = 'It Works'
-
-
 
     response_body = response_body.encode('utf-8')
     response_headers = [('Content-Type', ctype), ('Content-Length', str(len(response_body)))]

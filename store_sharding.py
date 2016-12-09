@@ -11,9 +11,10 @@ except ImportError:
 
 values = {}
 
-def storeValues(key, value, registerUsage, localhost, localport):
+def storeValues(key, value, localhost, localport):
     listValue = list(value)
     hosts = leader.getNodeList()
+    print(str(hosts))
 
     nr = 0
     for host in hosts:
@@ -24,24 +25,32 @@ def storeValues(key, value, registerUsage, localhost, localport):
         else:
             shardValue = listValue[nr*length : len(listValue)]
 
+        shardValue = str(nr) + ''.join(shardValue)
         nr = nr + 1
 
         if host.strip() != localhost + ':' + str(localport):
-            urlopen('http://' + host.strip() + '/sync/' + key + '=' + str(shardValue).strip('[]'))
-
-        print(shardValue + " : "+host)
+            url = 'http://' + host.strip() + '/sync/' + key + '=' + shardValue
+            threading.Thread(target=urlopen, args=(url,)).start()
+        else:
+            values[key] = shardValue
 
     return "I'll store "+key+" with the value "+value
 
+def syncValue(key, value):
+    values[key] = value
 
+
+def getValue():
+    return
 
 def getValues():
-    return
+    return str(values)
 
 def notifyLeader(leader, key, value):
     return
 
 def syncAll(key, value, localhost, localport):
+    # Do nothing, no leader needed on shardStore
     return
 
 def geturl(url):
